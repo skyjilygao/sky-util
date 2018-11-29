@@ -1,16 +1,21 @@
 package com.skyjilygao.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author skyjilygao
  * @since 20181128
  * @version 1.0
  */
+@Slf4j
 public class VideoConvert {
     private String ffmpeg = "ffmpeg";
     private List<String> cmdList;
@@ -44,6 +49,9 @@ public class VideoConvert {
         processM3U8(source, target);
     }
 
+    public void stop(){
+        p.destroy();
+    }
     private void checkSource() throws FileNotFoundException {
         File fm = new File(source);
         if (!fm.exists()) {
@@ -117,13 +125,18 @@ public class VideoConvert {
 
     /**
      * 检查ffmpeg是否有效
+     * 1.检查是否有路径
+     * 2.检查环境变量是否包含ffmpeg，包含则可能有，反之不包含也可能有。包含则判断路径下是否有文件。ffmpeg.exe或ffmpeg.sh
      * @throws FileNotFoundException
      */
     private void checkFfmpeg() throws FileNotFoundException {
         File fm = new File(ffmpeg);
+        // 检查是否有此文件：只针对ffmpeg是全路径有效，对环境变量无效
         if (!fm.exists()) {
-            throw new FileNotFoundException("ffmpeg 不存在：" + ffmpeg);
+            log.info("ffmpeg 可能不存在："+ ffmpeg);
         }
+        // 检查环境变量
+        Map<String, String> env = System.getenv();
     }
 
     /**
