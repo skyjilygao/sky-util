@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.10</version>
+            <version>[1.2.60,)</version>
         </dependency>
         <!-- export excel -->
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
