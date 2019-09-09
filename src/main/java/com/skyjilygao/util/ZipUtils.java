@@ -3,6 +3,8 @@ package com.skyjilygao.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -19,7 +21,24 @@ import java.util.zip.ZipOutputStream;
 public class ZipUtils {
     private static final int BUFFER_SIZE = 2 * 1024;
 
-    /**
+    /**ZipUtils
+     * @param srcDir      压缩文件夹源路径
+     * @throws RuntimeException      压缩失败会抛出运行时异常
+     * @throws FileNotFoundException 文件找不到
+     * @return 压缩文件全路径
+     */
+    public static String toZip(String srcDir)
+            throws RuntimeException, FileNotFoundException {
+        File src = new File(srcDir);
+        String runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        File zipFIle = new File(src.getAbsolutePath()+"_ct"+runTime+".zip");
+        String zipFullName = zipFIle.getAbsolutePath();
+        FileOutputStream fos1 = new FileOutputStream(new File(zipFullName));
+        toZip(srcDir, fos1, true);
+        return zipFullName;
+    }
+
+    /**ZipUtils
      * @param srcDir      压缩文件夹源路径
      * @param zipFullName 压缩文件输出全路径(即：文件夹 + 文件名)
      * @throws RuntimeException      压缩失败会抛出运行时异常
@@ -53,6 +72,7 @@ public class ZipUtils {
     private static void toZip(String srcDir, OutputStream out, boolean KeepDirStructure)
             throws RuntimeException {
         long start = System.currentTimeMillis();
+        log.info("压缩开始...");
         ZipOutputStream zos = null;
         try {
             zos = new ZipOutputStream(out);

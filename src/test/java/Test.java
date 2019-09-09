@@ -1,5 +1,6 @@
 
 import com.skyjilygao.util.VideoConvert;
+import com.skyjilygao.util.ZipUtils;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -7,12 +8,22 @@ import java.util.Properties;
 
 
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Map<String, String> map = System.getenv();
-
-        convertVideo();
+//        convertVideo();
+        zipDir();
     }
 
+    public static void zipDir() throws FileNotFoundException {
+        String zipdir = "E:\\ideaWorkSpace\\business-management-master\\business-bills\\files\\tmp\\invoice\\";
+        String dir = "E:\\ideaWorkSpace\\business-management-master\\business-bills\\files\\tmp\\invoice\\2019-09-09\\";
+        String zipName = ZipUtils.toZip(dir);
+        System.out.println(zipName);
+//        ZipUtils.toZip(dir, zipdir, zipName);
+    }
+    /**
+     * test ffmpeg
+     */
     public static void convertVideo(){
         // 使用环境变量
         VideoConvert convert = new VideoConvert("ffmpeg.exe");
