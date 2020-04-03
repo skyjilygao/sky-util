@@ -61,7 +61,7 @@ public class CSVUtil {
     public static void writeRow(List<Object> row, BufferedWriter csvWriter) throws IOException {
         for (Object data : row) {
             StringBuffer sb = new StringBuffer();
-            String rowStr = sb.append("\"").append(data).append("\",").toString();
+            String rowStr = sb.append("\"").append(data == null ? "" : data).append("\",").toString();
             csvWriter.write(rowStr);
         }
         csvWriter.newLine();

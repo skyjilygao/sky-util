@@ -131,12 +131,9 @@ public class VideoConvert {
      */
     private void checkFfmpeg() throws FileNotFoundException {
         File fm = new File(ffmpeg);
-        // 检查是否有此文件：只针对ffmpeg是全路径有效，对环境变量无效
         if (!fm.exists()) {
-            log.info("ffmpeg 可能不存在："+ ffmpeg);
+            throw new FileNotFoundException("ffmpeg 不存在：" + ffmpeg);
         }
-        // 检查环境变量
-        Map<String, String> env = System.getenv();
     }
 
     /**

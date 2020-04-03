@@ -1,9 +1,14 @@
 package com.skyjilygao.util;
 
 import com.ocpsoft.pretty.time.PrettyTime;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 public class ShowTime extends PrettyTime {
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -46,7 +51,8 @@ public class ShowTime extends PrettyTime {
      * @return 几分钟前，几小时前，几天前等等。时间越长，精度可能不准
      */
     public static String prettyTime(Date date){
+        Locale.setDefault(Locale.CHINA);
         PrettyTime p = new PrettyTime();
-        return p.format(date);
+        return StringUtils.deleteWhitespace(p.format(date));
     }
 }
