@@ -29,7 +29,7 @@ public class OkHttpTest {
 
 
     private void testGet() throws IOException {
-        String api = "https://graph.facebook.com/v6.0/xx/insights";
+        String api = "https://graph.facebook.com/v6.0/xxx/insights";
         String url = String.format("%s", api);
         Map<String, Object> p = new LinkedHashMap<>();
         p.put("level","campaign");
@@ -42,11 +42,16 @@ public class OkHttpTest {
         urlBuilder.addQueryParameter("level","campaign");
         urlBuilder.addQueryParameter("date_preset","lifetime");
         urlBuilder.addQueryParameter("fields","campaign_id,results,cost_per_result,spend,cost_per_action_type");
-        urlBuilder.addQueryParameter("access_token","EAABsbCS1iHgBAIJcq8LYWuPjEGDtfBbqNvMaLdeqZBIFnK8dGNf5w9RQVkcykxloLYIMlUbp8SKXKIkcZBVzf1NTvH6Vfvh1zZCqNMrN4THlfwizH4aeIVndNrxSVV6JP5y0g1ungdlgIV3bFr4cvs6zXJWri630B5MkoeK2eCb6luWn44A");
+        urlBuilder.addQueryParameter("access_token","xxx");
         urlBuilder.addQueryParameter("limit","2");
         Request.Builder builder = new Request.Builder();
         Request request1 = builder.url(urlBuilder.build()).build();
 
+//        RequestBody requestBody = RequestBody.create(JSONObject.toJSONString(p),MediaType.get("application/json; charset=utf-8"));
+       /* Request request = new Request.Builder()
+                .url(url).put(requestBody)
+                .get()
+                .build();*/
         client = new OkHttpClient().newBuilder()
                 .callTimeout(1000, TimeUnit.MINUTES)
                 .connectTimeout(1000, TimeUnit.MINUTES)
