@@ -1,4 +1,4 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.cglib.beans.BeanCopier;

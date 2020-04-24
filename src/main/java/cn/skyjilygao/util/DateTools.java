@@ -1,4 +1,4 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,4 +1,4 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import com.ocpsoft.pretty.time.PrettyTime;
 import org.apache.commons.lang3.StringUtils;

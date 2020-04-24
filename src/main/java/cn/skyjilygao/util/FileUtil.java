@@ -1,4 +1,4 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;

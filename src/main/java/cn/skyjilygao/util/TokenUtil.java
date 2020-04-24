@@ -1,16 +1,19 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 /**
- * 对字符串加密
- * @since 20190409
+ * Token工具类，相同源字符串执行结果不同，不使用密码使用
+ * @since 20200319
  * @author skyjilygao
  */
-public class EncryptionUtil {
+public class TokenUtil {
 
+    private final static String STR_DIC ="ABCDE0FG1HI3JK4LM5NO6PQ7RS8TU9VWXYZ";
+    private final static int STR_DIC_LEN = STR_DIC.length();
     /**
      * SHA-512加密
      * @param originStr 原字符串
@@ -20,28 +23,6 @@ public class EncryptionUtil {
      */
     public static String SHA512(String originStr) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         return encryption(originStr, "SHA-512");
-    }
-
-    /**
-     * SHA-256加密
-     * @param originStr 原字符串
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
-     */
-    public static String SHA256(String originStr) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        return encryption(originStr, "SHA-256");
-    }
-
-    /**
-     * MD5加密
-     * @param originStr 原字符串
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
-     */
-    public static String MD5(String originStr) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        return encryption(originStr, "MD5");
     }
 
     /**
@@ -69,12 +50,33 @@ public class EncryptionUtil {
         String temp = null;
         for (int i = 0; i < bytes.length; i++) {
             temp = Integer.toHexString(bytes[i] & 0xFF);
-            if (temp.length() == 1) {
-                //1得到一位的进行补0操作
-                stringBuffer.append("0");
+            stringBuffer.append(randStr());
+            if (temp.length() / 2 == 0) {
+                stringBuffer.append(temp);
             }
-            stringBuffer.append(temp);
+            stringBuffer.append(randStr());
         }
         return stringBuffer.toString();
+    }
+
+    private static String randStr(){
+        Random random=new Random();
+        int nint = random.nextInt(STR_DIC_LEN);
+        String str = ""+STR_DIC.charAt(random.nextInt(STR_DIC_LEN));
+        if(nint / 2 == 0){
+            return str.toLowerCase();
+        }
+        return str.toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        String str = "asdf";
+        try {
+            System.out.println(SHA512(str));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

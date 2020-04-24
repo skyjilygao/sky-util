@@ -1,6 +1,5 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
-import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.skyjilygao.util;
+package cn.skyjilygao.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
