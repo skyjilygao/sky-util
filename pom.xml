@@ -7,10 +7,14 @@
     <groupId>cn.skyjilygao.util</groupId>
     <artifactId>sky-util</artifactId>
     <version>2.0.0</version>
+    <!-- 必须：名称 -->
     <name>sky-util</name>
+    <!-- 必须：描述 -->
     <description>网络收集工具类</description>
+    <!-- 必须：项目地址 -->
     <url>https://github.com/skyjilygao/sky-util</url>
 
+    <!-- 必须：开源许可 -->
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -18,6 +22,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <!-- 必须：参与项目开发者 -->
     <developers>
         <developer>
             <id>sky</id>
@@ -107,8 +112,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
-    <repositories>
-    </repositories>
+
     <scm>
         <connection>scm:git:git@github.com:skyjilygao/sky-util.git</connection>
         <developerConnection>scm:git:git@github.com:skyjilygao/sky-util.git</developerConnection>
