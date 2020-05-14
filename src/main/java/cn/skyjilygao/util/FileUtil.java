@@ -46,17 +46,20 @@ public class FileUtil {
             int len;
             // 输出的文件流
 
-            OutputStream os = null;
             String filePath = sf.getPath() + "/" + fileNmae;
             log.info("file save path=" + filePath);
-            os = new FileOutputStream(filePath);
-            // 开始读取
-            while ((len = is.read(bs)) != -1) {
-                os.write(bs, 0, len);
+
+            try (OutputStream os = new FileOutputStream(filePath)) {
+                // 开始读取
+                while ((len = is.read(bs)) != -1) {
+                    os.write(bs, 0, len);
+                }
+                // 完毕，关闭所有链接
+//                os.close();
+//                is.close();
+            } catch (Exception e) {
+
             }
-            // 完毕，关闭所有链接
-            os.close();
-            is.close();
         } catch (Exception e) {
             log.error("", e);
         }
@@ -113,6 +116,7 @@ public class FileUtil {
 
     /**
      * 解析文件类型
+     *
      * @param file
      * @return
      */
@@ -124,6 +128,7 @@ public class FileUtil {
 
     /**
      * 判断文件是否存在
+     *
      * @param filePath
      * @param fileName
      * @return
@@ -131,8 +136,10 @@ public class FileUtil {
     public static boolean exists(String filePath, String fileName) {
         return exists(filePath + "/" + fileName) ? true : false;
     }
+
     /**
      * 判断文件是否存在
+     *
      * @param fileFullPath 文件全路径
      * @return
      */
@@ -161,19 +168,27 @@ public class FileUtil {
 
         private int index;
 
-        private FileType(int index){
+        private FileType(int index) {
             this.index = index;
         }
+
         public static FileType parse(String suffix) {
             switch (suffix.toLowerCase()) {
 //                bmp,jpg,png,tif,gif,pcx,tga,exif,fpx,svg,psd,cdr,pcd,dxf,ufo,eps,ai,raw,WMF,webp
-                case "bmp": return IMAGE;
-                case "jpg": return IMAGE;
-                case "png": return IMAGE;
-                case "tif": return IMAGE;
-                case "gif": return IMAGE;
-                case "mp4": return VIDEO;
-                case "rmvb": return VIDEO;
+                case "bmp":
+                    return IMAGE;
+                case "jpg":
+                    return IMAGE;
+                case "png":
+                    return IMAGE;
+                case "tif":
+                    return IMAGE;
+                case "gif":
+                    return IMAGE;
+                case "mp4":
+                    return VIDEO;
+                case "rmvb":
+                    return VIDEO;
                 default:
                     return UNKNOW;
             }

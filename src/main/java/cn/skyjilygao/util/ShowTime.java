@@ -11,11 +11,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ShowTime extends PrettyTime {
-    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
     /**
      * 1天毫秒数
      */
-    private static long dayTimeMillis = 24 * 60 * 60 * 1000;
+    private static long dayTimeMillis = 24 * 60 * 60 * 1000L;
     private static int default_days = 90;
     /**
      * 90天毫秒数（默认）
@@ -41,6 +41,7 @@ public class ShowTime extends PrettyTime {
     public static String showTimeStr(Date date, int days){
         long time = date.getTime();
         if (System.currentTimeMillis() - time > days * dayTimeMillis) {
+            SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_PATTERN);
             return df.format(date);
         }
         return prettyTime(date);

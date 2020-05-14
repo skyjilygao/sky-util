@@ -39,6 +39,7 @@ public class VideoThread extends Thread {
                     p.destroy();
                     log.info("video convert completed...");
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             } catch (IOException e) {

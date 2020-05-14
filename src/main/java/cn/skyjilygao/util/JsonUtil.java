@@ -26,13 +26,14 @@ public class JsonUtil {
     public static String readJsonFile(String filePath){
         File file = new File(filePath);
         StringBuilder result = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+        //构造一个BufferedReader类来读取文件
+        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
             String s = null;
-            while((s = br.readLine())!=null) {//使用readLine方法，一次读一行
+            //使用readLine方法，一次读一行
+            while((s = br.readLine())!=null) {
                 result.append(System.lineSeparator() + s);
             }
-            br.close();
+//            br.close();
         } catch (Exception e) {
             logger.error("This File Content Is Not JSON Text. " + e.getMessage());
 //            e.printStackTrace();

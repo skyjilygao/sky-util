@@ -75,7 +75,7 @@ public class RandomUtil {
      * @return
      */
     private static int generate(int len){
-        double d  = Math.pow(10, len - 1);
+        double d  = Math.pow(10, (double) len - 1);
         return (int)((Math.random() * 9 + 1) * d);
     }
 }

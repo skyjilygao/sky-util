@@ -1,5 +1,7 @@
 package cn.skyjilygao.util;
 
+import org.apache.commons.collections4.MapUtils;
+
 import java.util.*;
 
 public class MapSortUtil {
@@ -12,7 +14,11 @@ public class MapSortUtil {
         map.put("2018-12-25", "kfc");
 
         System.out.println("--------sortMapByKey----------");
-        Map<String, Object> resultMap = sortMapByKey(map);    //按Key进行排序
+        // 按Key进行排序
+        Map<String, Object> resultMap = sortMapByKey(map);
+        if(MapUtils.isEmpty(resultMap)){
+            return;
+        }
         for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }

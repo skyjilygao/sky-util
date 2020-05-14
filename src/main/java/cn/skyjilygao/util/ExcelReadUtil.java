@@ -186,8 +186,8 @@ public class ExcelReadUtil {
                                     if (cellValue != null && StringUtils.isNotBlank(cellValue.toString())) {
                                         validRow = true;
                                     }
-                                    if("String".equals(field.getType().getSimpleName())){
-                                        cellValue = cellValue.toString();
+                                    if(field.getType().getSimpleName() instanceof String){
+                                        cellValue = cellValue == null ? "" : cellValue.toString();
                                     }
                                     field.set(t, cellValue);
                                 } catch (Exception e) {

@@ -44,10 +44,12 @@ public class CSVUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                csvWtriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(null != csvWtriter){
+                try {
+                    csvWtriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

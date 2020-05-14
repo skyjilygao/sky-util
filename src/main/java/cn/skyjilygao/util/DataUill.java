@@ -18,7 +18,7 @@ public class DataUill {
         System.out.println("本月初0点时间：" + getTimesMonthmorning().toLocaleString());
         System.out.println("本月未24点时间：" + getTimesMonthnight().toLocaleString());
         System.out.println("上月初0点时间：" + getLastMonthStartMorning().toLocaleString());
-        System.out.println("本季度开始点时间：" + getCurrentQuarterStartTime().toLocaleString());
+        System.out.println("本季度开始点时间：" + (getCurrentQuarterStartTime() == null ? "" : getCurrentQuarterStartTime().toLocaleString()));
         System.out.println("本季度结束点时间：" + getCurrentQuarterEndTime().toLocaleString());
         System.out.println("本年开始点时间：" + getCurrentYearStartTime().toLocaleString());
         System.out.println("本年结束点时间：" + getCurrentYearEndTime().toLocaleString());
@@ -54,7 +54,7 @@ public class DataUill {
     // 获得当天24点时间
     public static Date getTimesnight() {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.HOUR_OF_DAY, 00);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -90,7 +90,7 @@ public class DataUill {
         Calendar cal = Calendar.getInstance();
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONDAY), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
         return cal.getTime();
     }
 

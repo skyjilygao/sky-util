@@ -1,6 +1,7 @@
 package cn.skyjilygao.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.crypto.Cipher;
@@ -132,6 +133,9 @@ public class TripleDES {
      */
     public static byte[] hexStr2ByteArr(String strIn)
             throws Exception {
+        if(StringUtils.isBlank(strIn)){
+            return null;
+        }
         byte[] arrB = strIn.getBytes();
         int iLen = arrB.length;
 
@@ -174,6 +178,9 @@ public class TripleDES {
         String des = getEncString(content);
         System.out.println("密文" + des);
         byte ss[] = hexStr2ByteArr(des);
+        if (null == ss){
+            return;
+        }
         String con2 = new String(decrypt(ss, key.getBytes()));
         System.out.println("解密" + con2);
     }

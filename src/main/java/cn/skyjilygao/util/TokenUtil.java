@@ -3,6 +3,7 @@ package cn.skyjilygao.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -14,6 +15,12 @@ public class TokenUtil {
 
     private final static String STR_DIC ="ABCDE0FG1HI3JK4LM5NO6PQ7RS8TU9VWXYZ";
     private final static int STR_DIC_LEN = STR_DIC.length();
+    private static Random random;
+
+    public TokenUtil() throws NoSuchAlgorithmException {
+        random = SecureRandom.getInstanceStrong();
+    }
+
     /**
      * SHA-512加密
      * @param originStr 原字符串
@@ -60,7 +67,7 @@ public class TokenUtil {
     }
 
     private static String randStr(){
-        Random random=new Random();
+
         int nint = random.nextInt(STR_DIC_LEN);
         String str = ""+STR_DIC.charAt(random.nextInt(STR_DIC_LEN));
         if(nint / 2 == 0){
