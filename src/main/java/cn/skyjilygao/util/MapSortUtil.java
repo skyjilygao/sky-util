@@ -1,7 +1,5 @@
 package cn.skyjilygao.util;
 
-import org.apache.commons.collections4.MapUtils;
-
 import java.util.*;
 
 public class MapSortUtil {
@@ -16,16 +14,17 @@ public class MapSortUtil {
         System.out.println("--------sortMapByKey----------");
         // 按Key进行排序
         Map<String, Object> resultMap = sortMapByKey(map);
-        if(MapUtils.isEmpty(resultMap)){
-            return;
+        if(resultMap != null){
+            for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
+                System.out.println(entry.getKey() + " " + entry.getValue());
+            }
         }
-        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
-        System.out.println("--------sortMapByValue----------");
+        System.out.println("--------sortMapByValue---00-------");
         resultMap = sortMapByValue(map);
-        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+        if(resultMap != null){
+            for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
+                System.out.println(entry.getKey() + " " + entry.getValue());
+            }
         }
     }
 

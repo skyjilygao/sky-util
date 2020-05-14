@@ -7,7 +7,6 @@ import java.util.Date;
 public class DataUill {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         System.out.println("当天24点时间：" + getTimesnight().toLocaleString());
         System.out.println("当前时间：" + new Date().toLocaleString());
         System.out.println("当天0点时间：" + getTimesmorning().toLocaleString());
@@ -18,11 +17,12 @@ public class DataUill {
         System.out.println("本月初0点时间：" + getTimesMonthmorning().toLocaleString());
         System.out.println("本月未24点时间：" + getTimesMonthnight().toLocaleString());
         System.out.println("上月初0点时间：" + getLastMonthStartMorning().toLocaleString());
-        System.out.println("本季度开始点时间：" + (getCurrentQuarterStartTime() == null ? "" : getCurrentQuarterStartTime().toLocaleString()));
+        Date d = getCurrentQuarterStartTime();
+        System.out.println("本季度开始点时间：" + (d == null ? "" : d.toLocaleString()));
         System.out.println("本季度结束点时间：" + getCurrentQuarterEndTime().toLocaleString());
         System.out.println("本年开始点时间：" + getCurrentYearStartTime().toLocaleString());
         System.out.println("本年结束点时间：" + getCurrentYearEndTime().toLocaleString());
-        System.out.println("上年开始点时间：" + getLastYearStartTime().toLocaleString());
+        System.out.println("上年开始点时间：" + getLastYearStartTime().toString());
     }
 
     // 获得当天0点时间

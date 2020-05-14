@@ -155,7 +155,7 @@ public class ExcelUtil {
         if (out == null) {
             throw new NullPointerException("file path not null");
         }
-        SXSSFWorkbook workbook = new SXSSFWorkbook(1000);//缓存
+        try(SXSSFWorkbook workbook = new SXSSFWorkbook(1000)){
         workbook.setCompressTempFiles(true);
 
         // 列头样式
@@ -194,9 +194,9 @@ public class ExcelUtil {
         /*for (int i = 0; i < headers.length; i++) {
             sheet.autoSizeColumn(i);
         }*/
-        try {
+
             workbook.write(out);
-            workbook.close();
+//            workbook.close();
             workbook.dispose();
         } catch (IOException e) {
             e.printStackTrace();
@@ -779,9 +779,13 @@ public class ExcelUtil {
             return null;
         }
 
-        Map.Entry<String, String> firstEntry = headMap.entrySet().stream().findFirst().get();
-        String pk = firstEntry.getKey();
-        String pv = firstEntry.getValue();
+        String pk = null,pv = null;
+        Optional<Map.Entry<String, String>> first = headMap.entrySet().stream().findFirst();
+        if(first.isPresent()){
+            Map.Entry<String, String> firstEntry = first.get();
+            pk = firstEntry.getKey();
+            pv = firstEntry.getValue();
+        }
 
         String primaryKey = pk;
         String primaryVal = pv;
