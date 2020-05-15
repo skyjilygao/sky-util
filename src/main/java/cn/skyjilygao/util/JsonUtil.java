@@ -17,6 +17,9 @@ import java.util.Set;
  * @since 20171127
  */
 public class JsonUtil {
+    private JsonUtil() {
+    }
+
     private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
     /**
      * read json text from file
@@ -33,10 +36,8 @@ public class JsonUtil {
             while((s = br.readLine())!=null) {
                 result.append(System.lineSeparator() + s);
             }
-//            br.close();
         } catch (Exception e) {
-            logger.error("This File Content Is Not JSON Text. " + e.getMessage());
-//            e.printStackTrace();
+            logger.error("This File Content Is Not JSON Text. errMsg={}", e.getMessage());
         }
         return result.toString();
     }
@@ -83,7 +84,7 @@ public class JsonUtil {
         JSONObject newJson = new JSONObject();
         Set<String> set = json.keySet();
         for(String s : set){
-            if(s.indexOf(".") > -1){
+            if(s.indexOf('.') > -1){
                 newJson.put(s.replaceAll("\\.","_"),json.get(s));
             }else{
                 newJson.put(s,json.get(s));

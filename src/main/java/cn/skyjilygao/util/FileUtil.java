@@ -1,16 +1,12 @@
 package cn.skyjilygao.util;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hpsf.Filetime;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.LocalDate;
 
 /**
  * 文件工具类
@@ -54,11 +50,6 @@ public class FileUtil {
                 while ((len = is.read(bs)) != -1) {
                     os.write(bs, 0, len);
                 }
-                // 完毕，关闭所有链接
-//                os.close();
-//                is.close();
-            } catch (Exception e) {
-
             }
         } catch (Exception e) {
             log.error("", e);
@@ -90,6 +81,7 @@ public class FileUtil {
                 if (osName.contains("linux")) {
                     Runtime.getRuntime().exec("chmod 775 -R " + localFile.getParent());
                 } else if (osName.contains("windows")) {
+                    // todo: 处理win中权限
                 }
                 return localFile;
             } catch (IOException e) {
