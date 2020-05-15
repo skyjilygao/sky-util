@@ -8,6 +8,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static cn.skyjilygao.util.DateTools.Pattern.YYYY_MM_DD;
+import static cn.skyjilygao.util.DateTools.Pattern.YYYY_MM_DD_HH_MM_SS;
+
 /**
  * Title: 日期转换
  * <p>
@@ -119,6 +122,7 @@ public final class DateTools {
      * <p> 建议使用 getCurrentDateTime()
      * @param pattern String 日期格式，如:yyyyMMddHHmmss
      * @return String
+     * @deprecated 建议使用 getCurrentDateTime()
      */
     @Deprecated
     public static String getCurrentDate(String pattern) {
@@ -345,11 +349,11 @@ public final class DateTools {
         SimpleDateFormat sdf2 = null;
         dateStr = dateStr.trim();
         if (14 == dateStr.length()) {
-            sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
-            sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf1 = new SimpleDateFormat(DATE_24_YYYYMMDDHHMMSS);
+            sdf2 = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
         } else if (8 == dateStr.length()) {
             sdf1 = new SimpleDateFormat("yyyyMMdd");
-            sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            sdf2 = new SimpleDateFormat(YYYY_MM_DD);
         } else if (6 == dateStr.length()) {
             sdf1 = new SimpleDateFormat("yyyyMM");
             sdf2 = new SimpleDateFormat("yyyy-MM");
@@ -543,14 +547,14 @@ public final class DateTools {
         List<String> list = new ArrayList<String>();
         list.add(start);
         try {
-
+            String f = "yyyy年MM月";
             long temp_end_time;
-            temp_end_time = DateTools.timeStr2Long(start, "yyyy年MM月");
+            temp_end_time = DateTools.timeStr2Long(start, f);
 
             while (true) {
 
-                String temp_end = DateTools.addDate(temp_end_time, 1, DateTools.MONTH, "yyyy年MM月");
-                temp_end_time = DateTools.timeStr2Long(temp_end, "yyyy年MM月");
+                String temp_end = DateTools.addDate(temp_end_time, 1, DateTools.MONTH, f);
+                temp_end_time = DateTools.timeStr2Long(temp_end, f);
                 if (temp_end.compareTo(end) == 0) {
                     break;
                 }
