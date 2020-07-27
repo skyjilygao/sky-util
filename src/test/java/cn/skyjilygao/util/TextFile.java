@@ -3,19 +3,33 @@ package cn.skyjilygao.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * 实现Iterable相关接口，直接通过for即可遍历文件内容
+ * @author skyjilygao
+ * @date 20200610
+ */
 public class TextFile implements Iterable<String> {
 
     private String filename;
     private int limit;
 
+    /**
+     * 初始化
+     * @param filename 文件路径
+     */
     public TextFile(String filename) {
         this(filename, 1);
     }
 
+    /**
+     * 初始化
+     * @param filename 文件路径
+     * @param limit 每次for的预先缓存行数。
+     */
     public TextFile(String filename, int limit) {
         this.limit = limit;
         this.filename = filename;
@@ -29,21 +43,31 @@ public class TextFile implements Iterable<String> {
 
     class TextFileIterator implements Iterator<String> {
 
+        /**
+         * 每次缓存大小
+         */
         int limit;
-        // stream being read from
+        /**
+         * stream being read from
+         */
         BufferedReader in;
-        Queue<String> queue = new PriorityQueue<>();
+        /**
+         * 缓存数据
+         */
+        Queue<String> queue;
 
-        // the structure method of TextFileItrator
+        /**
+         * 打开文件并读取第一行 如果第一行存在获得第一行
+         * @param filename
+         */
         public TextFileIterator(String filename) {
-            // 打开文件并读取第一行 如果第一行存在获得第一行
             this(filename, 1);
         }
 
         public TextFileIterator(String filename, int line) {
             line = line < 1 ? 1 : line;
             limit = line;
-            queue = new PriorityQueue<>();
+            queue = new LinkedList<>();
             // 打开文件并读取第一行 如果第一行存在获得第一行
             try {
                 in = new BufferedReader(new FileReader(filename));
@@ -71,13 +95,12 @@ public class TextFile implements Iterable<String> {
 
         private boolean loadNext() {
             try {
-
-                for (int i = 0; i < limit; i++) {
+                for (int i = 0; i < limit && !isFinish; i++) {
                     String line = in.readLine();
                     if (line == null) {
                         in.close();
                         isFinish = true;
-                        return false;
+                        break;
                     } else {
                         isFinish = false;
                         queue.add(line);
@@ -85,6 +108,9 @@ public class TextFile implements Iterable<String> {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            if(queue.size() == 0){
+                return false;
             }
             return true;
         }
