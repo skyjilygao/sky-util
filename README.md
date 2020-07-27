@@ -14,7 +14,7 @@ pom.xml依赖：
     <dependency>
   	    <groupId>com.github.skyjilygao</groupId>
   	    <artifactId>sky-util</artifactId>
-  	    <version>2.0.0</version>
+  	    <version>[2.0.0,)</version>
     </dependency>
 </dependencies>
 ```
@@ -24,12 +24,11 @@ pom.xml依赖：
 使用jitpack.io的repositories
 ```xml
 <!-- 依赖视频转换工具类，需要加入jitpack.io的repositories -->
-
 <dependencies>
     <dependency>
   	    <groupId>com.github.skyjilygao</groupId>
   	    <artifactId>sky-util</artifactId>
-  	    <version>2.0.0</version>
+  	    <version>[2.0.0,)</version>
     </dependency>
 </dependencies>
 <repositories>
