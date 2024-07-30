@@ -1,0 +1,6 @@
+#!/bin/sh
+#builtin cd "$@"
+dir=$(pwdx "$@" |awk -F' ' '{printf $2}')
+echo $dir
+(cd "$dir" && exec bash)
+#builtin cd "$dir"
