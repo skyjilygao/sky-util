@@ -1,6 +1,148 @@
-#!/bin/sh
-#builtin cd "$@"
-dir=$(pwdx "$@" |awk -F' ' '{printf $2}')
-echo $dir
-(cd "$dir" && exec bash)
-#builtin cd "$dir"
+#!/usr/bin/env bash
+
+# target process id to attach
+TARGET_PID=
+# select target process by classname or JARfilename
+SELECT=
+
+# Verbose, print debug info.
+VERBOSE=false
+
+call_jps()
+{
+    local JAVA_COMMAND_PATH=$( readlink $(type -p java) )
+    JAVA_HOME=$(echo "$JAVA_COMMAND_PATH" | sed -n 's/\/bin\/java$//p')
+
+    if [ "${VERBOSE}" = true ] ; then
+        "${JAVA_HOME}"/bin/jps -l -v
+    else
+        "${JAVA_HOME}"/bin/jps -l
+    fi
+}
+
+parse_arguments(){
+    
+    POSITIONAL=()
+    while [[ $# -gt 0 ]]
+    do
+    key="$1"
+    case $key in
+        -h|--help)
+        usage
+        exit 0
+        ;;
+        --select)
+        SELECT="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -v|--verbose)
+        VERBOSE=true
+        shift # past argument
+        ;;
+        *)    # unknown option
+        POSITIONAL+=("$1") # save it in an array for later
+        SELECT="$1"
+        shift # past argument
+        ;;
+    esac
+    done
+    set -- "${POSITIONAL[@]}" # restore positional parameters
+
+    # try to find target pid by --select option
+    if [ -z ${TARGET_PID} ] && [ ${SELECT} ]; then
+        local IFS=$'\n'
+        CANDIDATES=($(call_jps | grep -v sun.tools.jps.Jps | grep "${SELECT}" | awk '{print $0}'))
+        if [ ${#CANDIDATES[@]} -eq 1 ]; then
+            TARGET_PID=`echo ${CANDIDATES[0]} | cut -d ' ' -f 1`
+        fi
+    fi
+
+    # check pid
+    if [ -z ${TARGET_PID} ]; then
+        # interactive mode
+        local IFS=$'\n'
+        CANDIDATES=($(call_jps | grep -v sun.tools.jps.Jps | grep "${SELECT}" | awk '{print $0}'))
+
+        if [ ${#CANDIDATES[@]} -eq 0 ]; then
+            echo "Error: no available java process to attach."
+            return 1
+        fi
+
+        echo "Found existing java process, please choose one and input the serial number of the process, eg : 1. Then hit ENTER."
+
+        index=0
+        suggest=1
+        # auto select tomcat/pandora-boot process
+        for process in "${CANDIDATES[@]}"; do
+            index=$(($index+1))
+            if [ $(echo ${process} | grep -c org.apache.catalina.startup.Bootstrap) -eq 1 ] \
+                || [ $(echo ${process} | grep -c com.taobao.pandora.boot.loader.SarLauncher) -eq 1 ]
+            then
+               suggest=${index}
+               break
+            fi
+        done
+
+        index=0
+        for process in "${CANDIDATES[@]}"; do
+            index=$(($index+1))
+            if [ ${index} -eq ${suggest} ]; then
+                echo "* [$index]: ${process}"
+            else
+                echo "  [$index]: ${process}"
+            fi
+        done
+
+        read choice
+
+        if [ -z ${choice} ]; then
+            choice=${suggest}
+        fi
+        echo ${CANDIDATES[$(($choice-1))]}
+        TARGET_PID=`echo ${CANDIDATES[$(($choice-1))]} | cut -d ' ' -f 1`
+
+    elif [ -z ${TARGET_PID} ]; then
+        # batch mode is enabled, no interactive process selection.
+        echo "Illegal arguments, the <PID> is required." 1>&2
+        return 1
+    fi
+}
+
+
+exit_on_err()
+{
+    [[ ! -z "${2}" ]] && echo "${2}" 1>&2
+    exit ${1}
+}
+# the usage
+usage()
+{
+    echo "
+Usage:
+    $0 [-h] [pid | JARfilename]
+
+Options and Arguments:
+ -h,--help                      Print usage
+    --select                    select target process by classname or JARfilename
+ 
+ <pid | JARfilename>                          Target pid or JARfilename
+
+EXAMPLES:
+  ./cdp <pid>
+  ./cdp --select demo-test
+  ./cdp demo-test
+"
+
+}
+main(){
+    parse_arguments "${@}" \
+        || exit_on_err 1 "$(usage)"
+    echo "TARGET_PID=${TARGET_PID}"
+    dir=$(pwdx "${TARGET_PID}" |awk -F' ' '{printf $2}')
+    echo "dir=${dir}"
+    (cd "$dir" && exec bash)
+    #builtin cd "$dir"
+
+}
+main "${@}"

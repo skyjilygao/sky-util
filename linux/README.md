@@ -23,3 +23,13 @@
 - [daemon_jar.txt](daemon_java_pid%2Fdaemon_jar.txt) : 需要守护进程的jar文件名前缀，与[sky_demo_fat.sh](start_jar%2Fsky_demo_fat.sh)文件名配套使用。例如： `sky-demo`则对应 `sky_demo*.sh` 作为该jar文件的启动脚本，由`sky_demo*.sh`执行[start_jar.sh](start_jar%2Fstart_jar.sh)
 - [daemon_java_pid.sh](daemon_java_pid%2Fdaemon_java_pid.sh)：守护进程逻辑。利用`ps`检查是否存在进程，存在则记录对应进程所在目录路径`appdir`；不存在则进入`appdir`后执行jar文件的启动脚本（例如`sky_demo*.sh`），若`appdir`为空，则可能第一次执行亦或其他情况导致没有记录。需要手动启动jar文件
 - [daemon_start.sh](daemon_java_pid%2Fdaemon_start.sh) : 读取[daemon_jar.txt](daemon_java_pid%2Fdaemon_jar.txt)文件，判断是否存在相应守护脚本，存在则跳过，否则启动相应守护脚本。
+
+# 版本
+## 2024-08-01
+- cdp支持检索jar包名称。参考arthas脚本`as.sh`中参数解析。
+  - 示例：`cdp demo-test` # 若只有一个进程则直接进入相应目录；若多个进程则列出进程选项，输入相应序号并回车后进入相应目录
+  - 示例：`cdp -v demo-test` # 若只有一个进程则直接进入相应目录；若多个进程则列出进程选项（显示启动参数，参考`jps -lv`），输入相应序号并回车后进入相应目录
+  - 示例：`cdp <pid>` # 利用`jps`查进程，并不是直接进入相应目录。若只有一个进程则直接进入相应目录；若多个进程则列出进程选项，输入相应序号并回车后进入相应目录
+
+## 2024-07-30
+- 新增Linux小工具
