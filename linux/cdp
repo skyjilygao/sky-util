@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# target process id to attach
+## target process id to attach
 TARGET_PID=
 # select target process by classname or JARfilename
 SELECT=
