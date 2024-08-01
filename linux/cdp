@@ -21,7 +21,7 @@ call_jps()
 }
 
 parse_arguments(){
-    
+
     POSITIONAL=()
     while [[ $# -gt 0 ]]
     do
@@ -125,7 +125,7 @@ Usage:
 Options and Arguments:
  -h,--help                      Print usage
     --select                    select target process by classname or JARfilename
- 
+
  <pid | JARfilename>                          Target pid or JARfilename
 
 EXAMPLES:
