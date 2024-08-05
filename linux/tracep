@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # 检查是否提供了进程ID
 if [ -z "$1" ]; then
