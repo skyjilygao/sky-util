@@ -35,3 +35,4 @@ files/
 ### maven ###
 mvnw
 *.cmd
+.vscode/

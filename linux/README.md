@@ -25,7 +25,18 @@
 - [daemon_java_pid.sh](daemon_java_pid%2Fdaemon_java_pid.sh)：守护进程逻辑。利用`ps`检查是否存在进程，存在则记录对应进程所在目录路径`appdir`；不存在则进入`appdir`后执行jar文件的启动脚本（例如`sky_demo*.sh`），若`appdir`为空，则可能第一次执行亦或其他情况导致没有记录。需要手动启动jar文件
 - [daemon_start.sh](daemon_java_pid%2Fdaemon_start.sh) : 读取[daemon_jar.txt](daemon_java_pid%2Fdaemon_jar.txt)文件，判断是否存在相应守护脚本，存在则跳过，否则启动相应守护脚本。
 
+4. 追踪进程：`tracep`
+
+追踪进程由哪个用户启动的，如果root角色，不清楚是普通用户sudo到root角色后还是登录到root后启动进程。
+- 使用：
+  - `chmod +x tracep`
+  - `tracep <pid>`
+- 示例：tracep 1234
+
+
 # 版本
+## 2024-08-05
+- 新增：追踪进程：`tracep`
 ## 2024-08-01
 - cdp支持检索jar包名称。参考arthas脚本`as.sh`中参数解析。
   - 示例：`cdp demo-test` # 若只有一个进程则直接进入相应目录；若多个进程则列出进程选项，输入相应序号并回车后进入相应目录
