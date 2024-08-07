@@ -33,8 +33,52 @@
   - `tracep <pid>`
 - 示例：tracep 1234
 
+5. 删除旧jar文件：`del_old_jar_file.sh`
+
+背景：java项目往往一个大工程里分多个模块。gitlab发版java项目时，每次可能都发版不同模块。时间一长暂用磁盘空间太大，删除旧jar文件时需要每个发版目录都确认一下，每个jar文件保留最后几次发版文件，方便回滚。基于此，该脚本诞生。
+- `jar_parent_dir`：脚本内变量，指的是项目发布目录的上级目录，我这里示例中是固定的：`/home1/java`。若不一致可修改
+- 参数`$1`：脚本参数，指项目发布目录。比如gitlab发版到`/home1/java/demo`，该值就是`demo`
+- 特性：
+  - 每个jar文件保留最后3次发版文件。若需，可修改脚本内`lastn`变量
+  - 删除jar文件后，检查目录是否存在jar文件，存在则跳过，否则删除该目录
+- 使用：
+  - 将`del_old_jar_file.sh`拷贝到`/home1/java`
+  - `chmod +x del_old_jar_file.sh`
+  - `./del_old_jar_file.sh demo`
+  - 以下为输出结果：
+  ```
+  [root@gp8bscefb0iZ java]# ./del_old_jar_file.sh demo
+  clear dir: demo
+  delete jar file: /home1/java/demo/java_#8703/daily-report-data-sync-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#8719/daily-report-data-sync-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#8720/daily-report-data-sync-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#7950/data-compatible-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#7955/data-compatible-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#7434/old-data-migration-1.0.0.jar
+  delete jar file: /home1/java/demo/java_#7955/old-data-migration-1.0.0.jar
+  删除目录: /home1/java/demo/java_#7434
+  删除目录: /home1/java/demo/java_#7450
+  删除目录: /home1/java/demo/java_#7950
+  删除目录: /home1/java/demo/java_#7955
+  删除目录: /home1/java/demo/java_#8027
+  删除目录: /home1/java/demo/java_#8036
+  删除目录: /home1/java/demo/java_#8703
+  删除目录: /home1/java/demo/java_#8719
+  删除目录: /home1/java/demo/java_#8720
+  目录 /home1/java/demo/java_#8779 包含 .jar 文件，跳过删除
+  删除目录: /home1/java/demo/java_#8957
+  目录 /home1/java/demo/java_#9710 包含 .jar 文件，跳过删除
+  目录 /home1/java/demo/java_#9711 包含 .jar 文件，跳过删除
+  目录 /home1/java/demo/java_#9786 包含 .jar 文件，跳过删除
+  目录 /home1/java/demo/java_#9794 包含 .jar 文件，跳过删除
+  目录 /home1/java/demo/java_#9795 包含 .jar 文件，跳过删除
+  删除目录: /home1/java/demo/java_#9936
+  [root@gp8bscefb0iZ java]#
+  ```
 
 # 版本
+## 2024-08-07
+- 新增：删除旧jar文件：`del_old_jar_file.sh`
 ## 2024-08-05
 - 新增：追踪进程：`tracep`
 ## 2024-08-01
