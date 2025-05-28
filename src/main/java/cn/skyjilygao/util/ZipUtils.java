@@ -1,6 +1,9 @@
 package cn.skyjilygao.util;
 
 import lombok.extern.slf4j.Slf4j;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -146,4 +149,25 @@ public class ZipUtils {
             }
         }
     }
+
+    /**
+     * 给压缩文件设置访问密码
+     *
+     * @param sourceFile  源文件
+     * @param zipFilePath 压缩文件路径，包含文件名。例如："path/to/your/encrypted.zip"
+     * @param password    ZIP文件的密码
+     */
+    public static void toZip(File sourceFile, String zipFilePath, String password) throws IOException {
+        // 创建ZipFile对象
+        try (ZipFile zipFile = new ZipFile(zipFilePath, password.toCharArray())) {
+            // 创建ZipParameters对象，并设置密码和加密方法
+            ZipParameters parameters = new ZipParameters();
+            parameters.setEncryptFiles(true);
+            parameters.setEncryptionMethod(EncryptionMethod.ZIP_STANDARD); // 或者使用AES加密
+            // 添加文件到ZIP，并应用参数
+            zipFile.addFile(sourceFile, parameters);
+            log.info("ZIP file created with password successfully. >>> {}", zipFilePath);
+        }
+    }
+
 }
