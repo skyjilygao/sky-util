@@ -11,6 +11,9 @@ VERBOSE=false
 call_jps()
 {
     local JAVA_COMMAND_PATH=$( readlink $(type -p java) )
+    if [ -z $JAVA_COMMAND_PATH ];then
+      JAVA_COMMAND_PATH=$(type -p java)
+    fi
     JAVA_HOME=$(echo "$JAVA_COMMAND_PATH" | sed -n 's/\/bin\/java$//p')
 
     if [ "${VERBOSE}" = true ] ; then
