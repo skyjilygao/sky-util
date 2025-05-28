@@ -2,7 +2,6 @@ package cn.skyjilygao.util.csv;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -29,7 +28,7 @@ public class CsvWriteUtil {
      * @param headMap 必须是有序的 LinkedHashMap
      * @param content 不可为空。数据的 key必须根据 LinkedHashMap的key一致
      */
-    public CsvWriteUtil(@NotNull LinkedHashMap<String, String> headMap, @NotNull JSONArray content) {
+    public CsvWriteUtil(LinkedHashMap<String, String> headMap, JSONArray content) {
         this.headMap = headMap;
         this.content = content;
     }
@@ -37,7 +36,7 @@ public class CsvWriteUtil {
     /**
      * @param fileFullPath 不能为空，文件全路径。
      */
-    public void generate(@NotNull String fileFullPath) {
+    public void generate(String fileFullPath) {
         LinkedHashSet<String> keySet = new LinkedHashSet<>(headMap.keySet());
         ArrayList<String> strings = new ArrayList<>(headMap.values());
         String[] head = new String[strings.size()];
