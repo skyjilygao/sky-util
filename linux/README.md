@@ -75,6 +75,7 @@
   删除目录: /home1/java/demo/java_#9936
   [root@gp8bscefb0iZ java]#
   ```
+6. 压缩打包：[`smart_pack.sh`](smart_pack.md)
 
 # 版本
 ## 2024-08-07
